@@ -1,0 +1,83 @@
+<div class="main-content-container container-fluid px-4">
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 col-sm-4 text-center text-sm-left mb-0">
+            <h3 class="page-title">New Question creation</h3>
+        </div>
+    </div>
+
+    <div class="card card-small mb-4">
+        <div class="card-header border-bottom bg-primary">
+            <h6 class="m-0">Add question</h6>
+        </div>
+        <div class="card-body ">
+            <div class="qus">
+                <form class="form-horizontal" [formGroup]="questionform" (ngSubmit)="onSubmit();">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label for="pwd">Mode :</label>
+                            <select class="form-control" name="mode" formControlName="mode" required>
+                            <option value="" disabled>--Select--</option>
+                            <option value="Single">Single</option>
+                            <option value="Single">Multiple</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="pwd">Correct optionId :</label>
+                            <input type="text" class="form-control" name="correctoptionid" formControlName="correctOptionId" id="" required>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="pwd">Sequence :</label>
+                            <select class="form-control" name="sequence" formControlName="sequence" required>
+                            <option value="" disabled>--Select--</option>
+                            <option value="Random">Random</option>
+                            <option value="Normal">Normal</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label for="pwd">Question sequence :</label>
+                            <select class="form-control" name="qsequence" formControlName="qsequence" required>
+                            <option value="" disabled>--Select--</option>
+                            <option value="Random">Random</option>
+                            <option value="Normal">Normal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Question:</label>
+                        <textarea name="question" class="form-control" placeholder="write question here.." formControlName="question" id="" cols="121" rows="2" required></textarea>
+                    </div>
+                    <div formArrayName="options" *ngFor="let option of getControls(); let i = index">
+                        <div class="row" [formGroupName]="i">
+                            <div class="form-group col-5">
+                                <label>Option {{i +1}}:</label>
+                                <input type="hidden" class="form-control" value="" [ngModel]="i + 1" name="id" formControlName="id">
+                                <input type="text" class="form-control" placeholder="Provide Option here" formControlName="text" name="text" id="" required>
+
+                            </div>
+                            <div class="form-group col-5">
+                                <label>AOA {{i +1}}:</label>
+                                <select class="form-control" formControlName="AOA" name="AOA" required>
+                            <option value="select" disabled>--Select--</option>
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+                            </select>
+                            </div>
+
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-danger btn-sm float-right" title="Delete Option" (click)="removeoption(i);">
+                                   <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-primary btn-md float-left" (click)="addoption();"> Add Option</button>
+                </form>
+            </div>
+            <div class="card-footer ">
+                <button class="btn btn-primary btn-lg float-right" type="submit" (click)="onSubmit();"> Add Question</button>
+                <br><br><br>
+            </div>
+        </div>
+    </div>
+
+</div>

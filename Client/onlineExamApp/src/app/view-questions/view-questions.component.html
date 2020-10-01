@@ -1,0 +1,228 @@
+<div class="main-content-container container-fluid px-4">
+    <div class="page-header row no-gutters py-4">
+        <div class="col-12 text-center mb-0">
+            <h3 class="page-title">Question Paper List</h3>
+            <!-- <h3 class="text-danger">{{message}}</h3> -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div class="card card-small mb-4">
+                <div class="card-header border-bottom bg-primary search-header">
+                    <div class="row">
+                        <div class="col-3">
+                            <h6 class="m-0">Question list</h6>
+                        </div>
+                        <div class="col-9"></div>
+                        <!-- <div class="col-2">
+                        </div>
+                        <div class="col-1">
+                            <button type="submit" class="btn btn-danger" (click)="clear();" *ngIf="cl"><i class="fas fa-filter"></i></button>
+                        </div>
+                        <div class="col-4">
+                            <div class="input-group mb-3">
+                                <input class="form-control" type="date" [(ngModel)]="dateStart" placeholder="" required>
+                                <div class="col-1">
+                                    <h6><b>- </b></h6>
+                                </div>
+                                <input class="form-control" type="date" [(ngModel)]="dateEnd" placeholder="" required>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-warning" (click)="search();"><i class="fas fa-search"></i> By date</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="input-group mb-3">
+                                <select name="" class="form-control" id="" [(ngModel)]="searchStatus">
+                                    <option value="">--status--</option>
+                                    <option value="success">Success</option>
+                                    <option value="failed">Failed</option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-warning" (click)="search();"><i class="fas fa-search"></i> By Status</button>
+                                </div>
+                            </div>
+                        </div>-->
+
+                    </div>
+                </div>
+                <div class="card-body p-0 pb-3 text-center">
+                    <table class="table mb-0 table-responsive-sm table-bordered table-striped">
+                        <thead class="bg-light">
+                            <tr class="border-1">
+                                <th>SL.</th>
+                                <th>Subject code</th>
+                                <th>Question ID</th>
+                                <th>Exam code</th>
+                                <th>Question</th>
+                                <!-- <th>URL</th>
+                                        <th>IP</th>
+                                        <th>OS</th> -->
+                                <th>Details</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <!-- | filter : 'name' : searchString; -->
+                            <tr *ngFor="let x of questionlist | paginate: { itemsPerPage: 10, currentPage: p }; index as i">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ x.subCode }}</td>
+                                <td>{{ x.questionID }}</td>
+                                <td>{{ x.examCode }}</td>
+                                <td>{{ x.question }}</td>
+                                <!-- <td>{{ x.url }}</td>
+                                        <td>{{ x.ip }}</td>
+                                        <td>{{ x.os }}</td> -->
+                                <td>
+                                    <button class="btn btn-outline-primary" type="submit" data-toggle="modal" data-target="#viewQuestionListModal" data-backdrop="static" data-keyboard="false" (click)="viewQuestionDetail(x);"> <i class="fas fa-eye"></i></button>
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-danger" type="submit" data-toggle="modal" data-target="#deleteQuestionModal" data-backdrop="static" data-keyboard="false" (click)="viewQuestionDetail(x);"> <i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <pagination-controls class="my-pagination text-center" (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal for View and Edit -->
+
+<div class="modal fade" id="viewQuestionListModal" tabindex="1 " role="dialog " aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog " role="document1">
+        <div class="modal-content">
+            <div class="modal-header editheader bg-primary">
+                <h5 class="modal-title" id="ModalLabel ">View question details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="v1">
+                    <div class="form-group row ">
+                        <label class="col-md-5 col-form-label" for=" ">Mode :</label>
+                        <label class="col-md-7 col-form-label " for=" ">{{viewDetail.mode}}</label>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="col-md-5 col-form-label" for=" ">Sequence :</label>
+                        <label class="col-md-7 col-form-label " for=" ">{{viewDetail.sequence}}</label>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="col-md-5 col-form-label" for=" ">Correct optionId :</label>
+                        <label class="col-md-7 col-form-label " for=" ">{{viewDetail.correctOptionId}}</label>
+                    </div>
+                    <div class="form-group row ">
+                        <label class="col-md-5 col-form-label" for=" ">Question Id :</label>
+                        <label class="col-md-7 col-form-label " for=" ">{{viewDetail.questionID}}</label>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-md-5 col-form-label" for=" ">question :</label>
+                        <label class="col-md-7 col-form-label " for=" ">{{viewDetail.question}}</label>
+                    </div>
+                    <div class="form-group row" *ngFor="let opt of getoptions(); let i = index">
+                        <label class="col-md-5 col-form-label" for=" ">Option {{i +1}}:</label>
+                        <label class="col-md-7 col-form-label " for=" ">{{viewDetail.options[i].text}}</label>
+                    </div>
+                </div>
+                <div *ngIf="!v1">
+                    <form class="form-horizontal" [formGroup]="questionform" (ngSubmit)="onSubmit();">
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label for="pwd">Mode :</label>
+                                <select class="form-control" name="mode" formControlName="mode" required>
+                            <option value="" disabled>--Select--</option>
+                            <option value="Single">Single</option>
+                            <option value="Single">Multiple</option>
+                            </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="pwd">Correct optionId :</label>
+                                <input type="text" class="form-control" name="correctoptionid" formControlName="correctOptionId" id="" required>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="pwd">Sequence :</label>
+                                <select class="form-control" name="sequence" formControlName="sequence" required>
+                            <option value="" disabled>--Select--</option>
+                            <option value="Random">Random</option>
+                            <option value="Normal">Normal</option>
+                            </select>
+                            </div>
+                            <div class="form-group col-6">
+                                <label for="pwd">Question sequence :</label>
+                                <select class="form-control" name="qsequence" formControlName="qsequence" required>
+                            <option value="" disabled>--Select--</option>
+                            <option value="Random">Random</option>
+                            <option value="Normal">Normal</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Question:</label>
+                            <textarea name="question" class="form-control" value="" placeholder="{{viewDetail.question}}" formControlName="question" id="" cols="121" rows="2" required></textarea>
+                        </div>
+                        <div formArrayName="options" *ngFor="let option of getControls(); let i = index">
+                            <div class="row" [formGroupName]="i">
+                                <div class="form-group col-5">
+                                    <label>Option {{i +1}}:</label>
+                                    <input type="hidden" class="form-control" value="" [ngModel]="i + 1" name="id" formControlName="id">
+                                    <input type="text" class="form-control" placeholder="Provide Option here" formControlName="text" name="text" id="" required>
+
+                                </div>
+                                <div class="form-group col-5">
+                                    <label>AOA {{i +1}}:</label>
+                                    <select class="form-control" formControlName="AOA" name="AOA" required>
+                            <option value="select" disabled>--Select--</option>
+                            <option value="True">True</option>
+                            <option value="False">False</option>
+                            </select>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-danger btn-sm float-right" title="Delete Option" (click)="removeoption(i);">
+                                   <i class="fa fa-times" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="btn btn-primary btn-md float-left" (click)="addoption();"> Add Option</button>
+                    </form>
+                </div>
+                <br><br><br>
+                <div class="modal-footer ">
+                    <button type="button " class="btn btn-info" (click)="onEdit();" *ngIf="v1">Edit</button>
+                    <button type="button " class="btn btn-info" (click)="onSubmit();" *ngIf="!v1">Update</button>
+                    <button type="button " class="btn btn-info" (click)="onCancel();" *ngIf="!v1">Cancel</button>
+                    <button type="button " class="btn btn-secondary " data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal for Delete -->
+
+<div class="modal fade" id="deleteQuestionModal" tabindex="1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document1">
+        <div class="modal-content">
+            <div class="modal-header deleteheader bg-danger">
+                <h5 class="modal-title" id="ModalLabel">Confirmation</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h5>Are you sure you want to delete this Question ?</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteQuestionDetail(this.viewDetail.subCode, this.viewDetail.questionID);">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
